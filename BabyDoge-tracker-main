@@ -14,10 +14,10 @@ from datetime import datetime
 contractAddr = '0xc748673057861a797275cd8a068abb95a902e8de'
 
 #Wallet Address - INSERT YOUR PUBLIC WALLET ADDRESS HERE
-walletAddr = '0x90574d2ad44cfB7e17e144dBd7e4e273B6769392'
+walletAddr = ''
 
 #API Key for bscscan - MAKE AND ACCOUNT https://bscscan.com/register verify your account then go to https://bscscan.com/myapikey and generate a new API key. INSERT THAT API KEY HERE
-bscAPIkey = 'FQ89UUE4UN55N6ZEXFGG936A4VUJY6NBBE'
+bscAPIkey = ''
   
 ############################################################################################################
 
