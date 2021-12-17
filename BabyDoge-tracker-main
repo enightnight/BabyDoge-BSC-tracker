@@ -1,0 +1,79 @@
+from pandas.tseries.offsets import Second
+import requests
+import json
+import time
+import openpyxl
+from datetime import datetime
+
+
+
+
+########################## INSERT YOUR INFO AS NEEDED BELOW ################################################
+
+#Contract Address - the token you wish to read value from on Bscscan (set to BabyDoge, DO NOT CHANGE)
+contractAddr = '0xc748673057861a797275cd8a068abb95a902e8de'
+
+#Wallet Address - INSERT YOUR PUBLIC WALLET ADDRESS HERE
+walletAddr = '0x90574d2ad44cfB7e17e144dBd7e4e273B6769392'
+
+#API Key for bscscan - MAKE AND ACCOUNT https://bscscan.com/register verify your account then go to https://bscscan.com/myapikey and generate a new API key. INSERT THAT API KEY HERE
+bscAPIkey = 'FQ89UUE4UN55N6ZEXFGG936A4VUJY6NBBE'
+  
+############################################################################################################
+
+###PROGRAM CODE BELOW - DO NOT TOUCH UNLESS YOU KNOW WHAT YOU ARE DOING###
+
+mode = input("Enter 'F' for Full Mode, 'W' for wallet readout only, or 'P' for price readout only: ")
+verbose = False
+callBSC = True
+callPCS = True
+if mode == 'W':
+    callPCS = False
+elif mode == 'P':
+    callBSC = False
+elif mode == 'V':
+    verbose = True
+    mode = 'F'
+
+while True:
+
+    if callBSC == True:
+        if verbose == True:
+            print("calling bscscan...")
+
+        bscResponse = requests.get('https://api.bscscan.com/api?module=account&action=tokenbalance&contractaddress=' + contractAddr + '&address=' + walletAddr + '&tag=latest&apikey=' + bscAPIkey)
+        bscData = bscResponse.json() if bscResponse and bscResponse.status_code == 200 else None
+        BabyDogeAmount = bscData["result"]
+        BabyDogeAmount = float(BabyDogeAmount)
+        BabyDogeAmount = BabyDogeAmount / 1000000000
+        print("BabyDoge Balance: " + str(BabyDogeAmount))
+        from openpyxl import Workbook
+        wb = openpyxl.load_workbook('C:\\Users\\tj532\\Desktop\\BabyDoge-tracker-main\\BDC.xlsx')
+        sheet = wb.active
+           
+
+        sheet['A1'] = str(BabyDogeAmount)
+        sheet['A2'] = now = datetime.now() 
+
+      
+
+        #############################################
+        #  MAIN
+        #############################################
+
+
+        #Save it in an Excel fie
+        wb.save("C:\\Users\\tj532\\Desktop\\BabyDoge-tracker-main\\BDC.xlsx")
+        
+
+    
+    
+    if mode == 'F':
+        sfValue = BabyDogeAmount * float(BabyDogePrice)
+        sfValue = str(sfValue)
+        
+        print("Your Balance Value: " + sfValue + "\n")
+
+    if verbose == True:
+        print("Waiting 10 seconds...")
+    time.sleep(10)
